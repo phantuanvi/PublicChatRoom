@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1713" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="PublicChatRoom" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +16,71 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Transparent Logo" translatesAutoresizingMaskIntoConstraints="NO" id="a5E-c7-Q7O">
+                                <rect key="frame" x="140" y="233" width="320" height="135"/>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Write Nickname" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ksa-j7-Maa">
+                                <rect key="frame" x="140" y="376" width="320" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6eY-Qb-OZs">
+                                <rect key="frame" x="224" y="414" width="152" height="30"/>
+                                <color key="backgroundColor" red="0.65490196078431373" green="0.74117647058823533" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="152" id="oGE-yc-dFX"/>
+                                </constraints>
+                                <state key="normal" title="Enter Chat">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="enterChatBtn_click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a71-CK-9UC"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.4549019608" green="0.49803921569999998" blue="0.12549019610000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Ksa-j7-Maa" firstAttribute="centerX" secondItem="a5E-c7-Q7O" secondAttribute="centerX" id="0ye-I1-d3R"/>
+                            <constraint firstItem="Ksa-j7-Maa" firstAttribute="top" secondItem="a5E-c7-Q7O" secondAttribute="bottom" constant="8" id="5eS-gs-GH7"/>
+                            <constraint firstItem="Ksa-j7-Maa" firstAttribute="width" secondItem="a5E-c7-Q7O" secondAttribute="width" id="GGT-cg-DvI"/>
+                            <constraint firstItem="6eY-Qb-OZs" firstAttribute="top" secondItem="Ksa-j7-Maa" secondAttribute="bottom" constant="8" id="Ogb-Ld-VES"/>
+                            <constraint firstItem="a5E-c7-Q7O" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="RYL-3l-tYQ"/>
+                            <constraint firstItem="6eY-Qb-OZs" firstAttribute="centerX" secondItem="Ksa-j7-Maa" secondAttribute="centerX" id="SMS-Xh-liY"/>
+                            <constraint firstItem="a5E-c7-Q7O" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ygi-Bb-USy"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="enterChatBtn" destination="6eY-Qb-OZs" id="57w-L2-1fb"/>
+                        <outlet property="logoImg" destination="a5E-c7-Q7O" id="zYy-Er-J62"/>
+                        <outlet property="nicknameTF" destination="Ksa-j7-Maa" id="ggK-QA-upr"/>
+                        <segue destination="rpx-xm-9hn" kind="show" identifier="startChatting" id="cZc-5U-pTQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="300" y="162"/>
+        </scene>
+        <!--Chat View Controller-->
+        <scene sceneID="Abl-ss-Vsg">
+            <objects>
+                <viewController id="rpx-xm-9hn" customClass="ChatViewController" customModule="PublicChatRoom" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="JTs-b3-mGr"/>
+                        <viewControllerLayoutGuide type="bottom" id="pNp-KD-sy3"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5VP-pz-b78">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6HJ-hO-b89" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1002" y="162"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Transparent Logo" width="320" height="135"/>
+    </resources>
 </document>
