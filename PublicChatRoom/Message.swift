@@ -21,7 +21,19 @@ class Message: JSQMessage {
         let mediaType = snapshot.value["MediaType"] as? String
         
         self.mediaType = MediaType(rawValue: mediaType!)!
-        super.init(senderId: senderID!, senderDisplayName: senderName!, date: NSDate(timeIntervalSince1970: timestamp!), text: text)
+        
+        if self.mediaType == .Text {
+            super.init(senderId: senderID!, senderDisplayName: senderName!, date: NSDate(timeIntervalSince1970: timestamp!), text: text)
+        } else if self.mediaType == .Photo {
+            let decodedData = NSData(base64EncodedString: text!, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)
+            let decodedImg = UIImage(data: decodedData!)
+            
+            let jsqImg = JSQPhotoMediaItem(image: decodedImg)
+            
+            super.init(senderId: senderID!, senderDisplayName: senderName!, date: NSDate(timeIntervalSince1970: timestamp!), media: jsqImg)
+        } else {
+            super.init(senderId: senderID!, senderDisplayName: senderName!, date: NSDate(timeIntervalSince1970: timestamp!), text: text)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

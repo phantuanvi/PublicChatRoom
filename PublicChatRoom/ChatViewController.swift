@@ -19,6 +19,7 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
     var avatars = [String: JSQMessagesAvatarImage]()
     
     var chatRoomName: String!
+    
     var ref: Firebase {
         get {
             return Firebase(url: "https://publicchatroomvi.firebaseio.com/\(chatRoomName)/Messages")
@@ -56,8 +57,6 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
         sheet.addAction(cancel)
         sheet.addAction(sendPhoto)
         presentViewController(sheet, animated: true, completion: nil)
-        
-
     }
 
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
@@ -119,18 +118,21 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
     
     // MARK: UIImagePicker Delegate
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+    
+        let img = resizeImage(image)
         
-        let img = image
-        let jsqImage = JSQPhotoMediaItem(image: img)
-//        let msg = JSQMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: NSDate(), media: jsqImage)
-//        self.messages.append(msg)
-//        
-//        if self.avatars[msg.senderId] == nil {
-//            self.setupAvatarColor(msg.senderId, name: msg.senderDisplayName, incoming: false)
-//        }
-        
-        self.finishSendingMessage()
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(true) { () -> Void in
+            let imageData = UIImagePNGRepresentation(img)!
+            let base64String = imageData.base64EncodedStringWithOptions(.Encoding64CharacterLineLength)
+            
+            let msgDict = ["text": base64String,
+                            "MediaType": MediaType.Photo.rawValue,
+                            "senderId": self.senderId,
+                            "senderName": self.senderDisplayName,
+                            "timestamp": NSDate().timeIntervalSince1970]
+            self.ref.childByAutoId().setValue(msgDict)
+            self.finishSendingMessage()
+        }
     }
     
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -174,5 +176,20 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
             }) { (error) -> Void in
                 print(error)
         }
+    }
+    
+    func resizeImage(img: UIImage) -> UIImage {
+        
+        let size = CGSizeApplyAffineTransform(img.size, CGAffineTransformMakeScale(0.5, 0.5))
+        let hasAlpha = false
+        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+        
+        UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, scale)
+        img.drawInRect(CGRect(origin: CGPointZero, size: size))
+        
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return scaledImage
     }
 }
