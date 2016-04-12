@@ -42,9 +42,12 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        self.view.endEditing(true)
+    }
 
     // MARK: IBAction
-    
     @IBAction func enterChatBtn_click(sender: UIButton) {
         
         if nicknameTF.text != "" {
@@ -54,7 +57,11 @@ class ViewController: UIViewController {
     
     // MARK: prepareForSegue
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
+        if let destination = segue.destinationViewController as? ChatViewController {
+            destination.senderId = UIDevice.currentDevice().identifierForVendor!.UUIDString
+            destination.senderDisplayName = nicknameTF.text
+            destination.chatRoomName = "Public Chat Room"
+        }
     }
 }
 

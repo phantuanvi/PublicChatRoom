@@ -15,6 +15,7 @@
 		0C1699B21CBCFCBF003E9E53 /* PublicChatRoomTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1699B11CBCFCBF003E9E53 /* PublicChatRoomTests.swift */; };
 		0C1699BD1CBCFCBF003E9E53 /* PublicChatRoomUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1699BC1CBCFCBF003E9E53 /* PublicChatRoomUITests.swift */; };
 		0CDF00B51CBD0EA800F75F7B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF00B41CBD0EA800F75F7B /* ChatViewController.swift */; };
+		0CDF00B71CBD373C00F75F7B /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDF00B61CBD373C00F75F7B /* Message.swift */; };
 		AE187EAE19B08C9738445D49 /* libPods-PublicChatRoom.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66AD7B6F6A5FAAF5F6C9DA7A /* libPods-PublicChatRoom.a */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		0C1699BE1CBCFCBF003E9E53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C1699CA1CBCFF56003E9E53 /* PublicChatRoom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PublicChatRoom-Bridging-Header.h"; sourceTree = "<group>"; };
 		0CDF00B41CBD0EA800F75F7B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		0CDF00B61CBD373C00F75F7B /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		34DFF96B00A5A6CC031D1E70 /* Pods-PublicChatRoom.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PublicChatRoom.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PublicChatRoom/Pods-PublicChatRoom.debug.xcconfig"; sourceTree = "<group>"; };
 		66AD7B6F6A5FAAF5F6C9DA7A /* libPods-PublicChatRoom.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-PublicChatRoom.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75A446840061E7756442918 /* Pods-PublicChatRoom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PublicChatRoom.release.xcconfig"; path = "Pods/Target Support Files/Pods-PublicChatRoom/Pods-PublicChatRoom.release.xcconfig"; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 				0C16999C1CBCFCBF003E9E53 /* AppDelegate.swift */,
 				0C16999E1CBCFCBF003E9E53 /* ViewController.swift */,
 				0CDF00B41CBD0EA800F75F7B /* ChatViewController.swift */,
+				0CDF00B61CBD373C00F75F7B /* Message.swift */,
 				0C1699A01CBCFCBF003E9E53 /* Main.storyboard */,
 				0C1699A31CBCFCBF003E9E53 /* Assets.xcassets */,
 				0C1699A51CBCFCBF003E9E53 /* LaunchScreen.storyboard */,
@@ -340,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0C16999F1CBCFCBF003E9E53 /* ViewController.swift in Sources */,
+				0CDF00B71CBD373C00F75F7B /* Message.swift in Sources */,
 				0CDF00B51CBD0EA800F75F7B /* ChatViewController.swift in Sources */,
 				0C16999D1CBCFCBF003E9E53 /* AppDelegate.swift in Sources */,
 			);

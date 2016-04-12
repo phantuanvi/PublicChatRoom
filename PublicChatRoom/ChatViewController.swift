@@ -15,21 +15,27 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
     var outgoingBubbleImage: JSQMessagesBubbleImage!
     var incomingBubbleImage: JSQMessagesBubbleImage!
     
-    var messages = [JSQMessage]()
+    var messages = [Message]()
     var avatars = [String: JSQMessagesAvatarImage]()
+    
+    var chatRoomName: String!
+    var ref: Firebase {
+        get {
+            return Firebase(url: "https://publicchatroomvi.firebaseio.com/\(chatRoomName)/Messages")
+        }
+    }
     
     var imagePicker = UIImagePickerController()
     
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.senderId = "01"
-        self.senderDisplayName = "Vizi"
         
         let bubbleFactory = JSQMessagesBubbleImageFactory()
         self.outgoingBubbleImage = bubbleFactory.outgoingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleLightGrayColor())
         self.incomingBubbleImage = bubbleFactory.outgoingMessagesBubbleImageWithColor(UIColor.jsq_messageBubbleBlueColor())
+        
+        setup()
     }
 
     override func didReceiveMemoryWarning() {
@@ -55,12 +61,19 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
     }
 
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        let msg = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
-        messages.append(msg)
+//        let msg = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
+//        messages.append(msg)
+//        
+//        if self.avatars[senderId] == nil {
+//            self.setupAvatarColor(msg.senderId, name: msg.senderDisplayName, incoming: false)
+//        }
         
-        if self.avatars[senderId] == nil {
-            self.setupAvatarColor(msg.senderId, name: msg.senderDisplayName, incoming: false)
-        }
+        ref.childByAutoId().setValue(["text":text,
+                                        "senderId": senderId,
+                                        "senderName": senderDisplayName,
+                                        "timestamp": date.timeIntervalSince1970,
+                                        "MediaType": "TEXT"])
+        JSQSystemSoundPlayer.jsq_playMessageSentSound()
         
         self.finishSendingMessageAnimated(true)
     }
@@ -109,12 +122,12 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
         
         let img = image
         let jsqImage = JSQPhotoMediaItem(image: img)
-        let msg = JSQMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: NSDate(), media: jsqImage)
-        self.messages.append(msg)
-        
-        if self.avatars[msg.senderId] == nil {
-            self.setupAvatarColor(msg.senderId, name: msg.senderDisplayName, incoming: false)
-        }
+//        let msg = JSQMessage(senderId: self.senderId, senderDisplayName: self.senderDisplayName, date: NSDate(), media: jsqImage)
+//        self.messages.append(msg)
+//        
+//        if self.avatars[msg.senderId] == nil {
+//            self.setupAvatarColor(msg.senderId, name: msg.senderDisplayName, incoming: false)
+//        }
         
         self.finishSendingMessage()
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -141,5 +154,25 @@ class ChatViewController: JSQMessagesViewController, UIImagePickerControllerDele
         
         self.imagePicker.mediaTypes = [kUTTypeImage as String]
         self.presentViewController(self.imagePicker, animated: true, completion: nil)
+    }
+    
+    func setup() {
+        
+        ref.queryLimitedToLast(25).observeEventType(.ChildAdded, withBlock: { (snapshot) -> Void in
+            
+            let message = Message(snapshot: snapshot)
+            
+            if message.senderId == self.senderId {
+                self.setupAvatarColor(message.senderId, name: message.senderDisplayName, incoming: false)
+            } else {
+                self.setupAvatarColor(message.senderId, name: message.senderDisplayName, incoming: true)
+            }
+            
+            self.messages.append(message)
+            
+            self.finishReceivingMessage()
+            }) { (error) -> Void in
+                print(error)
+        }
     }
 }
